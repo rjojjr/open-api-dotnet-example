@@ -1,0 +1,11 @@
+﻿version: '3.1'
+
+services:
+
+  open_ai:
+    image: open-ai-exp
+    container_name: open-ai-exp
+    ports:
+       - 8090:8090
+    environment:
+      OPEN_AI_API_KEY: unknownatm
