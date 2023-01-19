@@ -1,11 +1,11 @@
 ﻿using System;
 namespace open_ai_example.Model
 {
-	public class TextCompletionResponse
-	{
+    public class TextCompletionResponse
+    {
 
-		public string Response;
-		public long TimeTaken = 0;
+        public string Response { get; set; } = null!;
+        public long TimeTaken { get; set; }
 
         public TextCompletionResponse(string response, long timeTaken)
         {

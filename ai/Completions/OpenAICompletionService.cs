@@ -7,6 +7,7 @@ using OpenAI.GPT3.Interfaces;
 using OpenAI.GPT3.Managers;
 using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.RequestModels;
+using OpenAI.GPT3.ObjectModels.ResponseModels;
 
 namespace open_ai_example.ai.Completions
 {
@@ -29,6 +30,8 @@ namespace open_ai_example.ai.Completions
 		{
             var timer = Timer.Timer.TimerFactory(true);
 
+            //return new TextCompletionResponse("", timer.GetTimeElasped());
+
             var completionResult = await _openAIService.Completions.CreateCompletion(new CompletionCreateRequest()
             {
                 Prompt = prompt,
@@ -36,7 +39,6 @@ namespace open_ai_example.ai.Completions
             }, Models.Davinci);
 
             var unknownError = new Exception("Error while processing completion result");
-
             if (completionResult.Successful)
             {
                 var result = completionResult.Choices.FirstOrDefault();

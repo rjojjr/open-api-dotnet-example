@@ -8,4 +8,6 @@ services:
     ports:
        - 8090:8090
     environment:
-      OPEN_AI_API_KEY: unknownatm
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://*:8090
+      OPEN_AI_API_KEY: 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

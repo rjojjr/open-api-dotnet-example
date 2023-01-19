@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using open_ai_example.Timer;
 using open_ai_example.ai.Completions;
 
 namespace open_ai_example.Controllers
@@ -29,17 +30,30 @@ namespace open_ai_example.Controllers
         /// <response code="500">Something went wrong</response>
         [HttpGet("completion")]
         public IActionResult GetCompletion([FromQuery] string prompt = "",
-            [FromQuery] int maxTokens = 1)
+            [FromQuery] int maxTokens = 1,
+            [FromQuery] string contextId = "")
         {
+            var timer = Timer.Timer.TimerFactory(true);
+            var resolvedContextId = "";
+
+            if(contextId == null || contextId == "")
+            {
+                resolvedContextId = Guid.NewGuid().ToString();
+            }
+            else
+            {
+                resolvedContextId = contextId;
+            }
+            _logger.LogInformation("received request to perform OpenAI text completion [contextId: {}]", resolvedContextId);
             return ExecuteWithExceptionHandler(() =>
             {
-                _logger.LogInformation("received request to perform OpenAI text completion");
+                //if (prompt == null || prompt == "")
+                //{
+                //    _logger.LogInformation("completed usuccessfully request to perform OpenAI text completion [contextId: {}, timeTaken: {}]", resolvedContextId, timer.GetTimeElasped());
+                //    return BadRequest("prompt is required.");
+                //}
 
-                if(prompt == "")
-                {
-                    return BadRequest("prompt is required.");
-                }
-               
+                _logger.LogInformation("completed successfully request to perform OpenAI text completion [contextId: {}, timeTaken: {}]", resolvedContextId, timer.GetTimeElasped());
                 return Ok(_openAiCompletionService.GetCompletion(prompt, maxTokens));
             });
         }

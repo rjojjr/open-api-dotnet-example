@@ -1,5 +1,5 @@
 ﻿using System;
-namespace open_ai_example.ai.Timer
+namespace open_ai_example.Timer
 {
 	public class Timer
 	{

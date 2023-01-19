@@ -1,11 +1,37 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.OpenApi.Models;
+using open_ai_example.ai.Base;
+using open_ai_example.ai.Completions;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddSingleton<OpenAICompletionService>();
+builder.Services.AddSingleton<OpenAIServiceProvider>();
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressConsumesConstraintForFormFileParameters = true;
+        options.SuppressInferBindingSourcesForParameters = true;
+        options.SuppressModelStateInvalidFilter = true;
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen(options =>
+//{
+//    options.SwaggerDoc("v1", new OpenApiInfo
+//    {
+//        Version = "v1",
+//        Title = "OpenAI Example API",
+//        Description = "A dotnet application to experiment with OpenAI"
+//    });
+//    var filePath = Path.Combine(System.AppContext.BaseDirectory, "open-ai-example.xml");
+//    options.IncludeXmlComments(filePath);
+//});
+
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
@@ -16,9 +42,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
