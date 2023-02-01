@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.6.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,9 @@
     <None Remove="ai\Base\" />
     <None Remove="Model\" />
     <None Remove="Swashbuckle.AspNetCore" />
+    <None Remove="MongoDB.Driver" />
+    <None Remove="Config\" />
+    <None Remove="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ai\" />
@@ -30,5 +34,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="ai\Base\" />
     <Folder Include="Model\" />
+    <Folder Include="Config\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 </Project>

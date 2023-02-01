@@ -35,8 +35,9 @@ namespace open_ai_example.ai.Completions
             var completionResult = await _openAIService.Completions.CreateCompletion(new CompletionCreateRequest()
             {
                 Prompt = prompt,
-                MaxTokens = maxTokens
-            }, Models.Davinci);
+                MaxTokens = maxTokens,
+                Stop = "Human:,AI:"
+            }, Models.TextDavinciV3);
 
             var unknownError = new Exception("Error while processing completion result");
             if (completionResult.Successful)
@@ -48,7 +49,7 @@ namespace open_ai_example.ai.Completions
                 }
                 Console.WriteLine(result);
 
-                return new TextCompletionResponse(result.ToString(), timer.GetTimeElasped());
+                return new TextCompletionResponse(result.Text, timer.GetTimeElasped());
             }
             else
             {

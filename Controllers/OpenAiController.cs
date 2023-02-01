@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using open_ai_example.Timer;
 using open_ai_example.ai.Completions;
+using System.Web;
 
 namespace open_ai_example.Controllers
 {
+
+   
 
     [ApiController]
     [Route("open-ai/api/v1")]
@@ -28,10 +31,8 @@ namespace open_ai_example.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">Prompt is a required query parameter</response>
         /// <response code="500">Something went wrong</response>
-        [HttpGet("completion")]
-        public IActionResult GetCompletion([FromQuery] string prompt = "",
-            [FromQuery] int maxTokens = 1,
-            [FromQuery] string contextId = "")
+        [HttpPost("completion")]
+        public IActionResult GetCompletion([FromBody] CompletionRequest completionRequest, [FromQuery] string contextId = "")
         {
             var timer = Timer.Timer.TimerFactory(true);
             var resolvedContextId = "";
@@ -47,14 +48,10 @@ namespace open_ai_example.Controllers
             _logger.LogInformation("received request to perform OpenAI text completion [contextId: {}]", resolvedContextId);
             return ExecuteWithExceptionHandler(() =>
             {
-                //if (prompt == null || prompt == "")
-                //{
-                //    _logger.LogInformation("completed usuccessfully request to perform OpenAI text completion [contextId: {}, timeTaken: {}]", resolvedContextId, timer.GetTimeElasped());
-                //    return BadRequest("prompt is required.");
-                //}
+                var response = _openAiCompletionService.GetCompletion(HttpUtility.UrlDecode(completionRequest.Prompt), completionRequest.MaxTokens);
 
                 _logger.LogInformation("completed successfully request to perform OpenAI text completion [contextId: {}, timeTaken: {}]", resolvedContextId, timer.GetTimeElasped());
-                return Ok(_openAiCompletionService.GetCompletion(prompt, maxTokens));
+                return Ok(response);
             });
         }
     }

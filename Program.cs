@@ -1,10 +1,15 @@
 ﻿using Microsoft.OpenApi.Models;
 using open_ai_example.ai.Base;
 using open_ai_example.ai.Completions;
+using open_ai_example.Config;
+using open_ai_example.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.Configure<ModelDbConfig>(
+    builder.Configuration.GetSection("ModelDbConfig"));
 
 builder.Services.AddSingleton<OpenAICompletionService>();
 builder.Services.AddSingleton<OpenAIServiceProvider>();
@@ -31,6 +36,12 @@ builder.Services.AddEndpointsApiExplorer();
 //});
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMvc(options =>
+{
+    options.InputFormatters.Add(new TextPlainInputFormatter());
+});
+
 
 
 var app = builder.Build();
