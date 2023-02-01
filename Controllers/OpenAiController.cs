@@ -70,7 +70,8 @@ namespace open_ai_example.Controllers
         /// <response code="400">Prompt is a required query parameter</response>
         /// <response code="500">Something went wrong</response>
         [HttpGet("chat")]
-        public IActionResult GetCompletion([FromQuery] string modelName, [FromQuery] string sessionId, [FromQuery] string message, [FromQuery] string contextId = "")
+        public IActionResult GetCompletion([FromQuery] string modelName,
+            [FromQuery] string sessionId, [FromQuery] string message, [FromQuery] string contextId = "")
         {
             var timer = Timer.Timer.TimerFactory(true);
             var resolvedContextId = "";
@@ -101,7 +102,9 @@ namespace open_ai_example.Controllers
         /// <response code="400">Prompt is a required query parameter</response>
         /// <response code="500">Something went wrong</response>
         [HttpPost("completion/model")]
-        public IActionResult CreateModel([FromBody] CreateOpenAIModelRequest completionRequest, [FromQuery] string contextId = "")
+        public IActionResult CreateModel([FromBody] CreateOpenAIModelRequest completionRequest,
+            [FromQuery] string contextId = "",
+            [FromQuery] bool urlEncoded = false)
         {
             var timer = Timer.Timer.TimerFactory(true);
             var resolvedContextId = "";
@@ -118,7 +121,7 @@ namespace open_ai_example.Controllers
             return ExecuteWithExceptionHandler(() =>
             {
                 var response = _openAIModelService.CreateCompletionModel(completionRequest.ModelName,
-                    completionRequest.ModelRaw,
+                    urlEncoded ? HttpUtility.UrlDecode(completionRequest.ModelRaw) : completionRequest.ModelRaw,
                     completionRequest.ModelAuthor,
                     completionRequest.ModelStop,
                     completionRequest.ModelType);
