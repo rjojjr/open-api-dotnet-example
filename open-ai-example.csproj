@@ -27,6 +27,7 @@
     <None Remove="MongoDB.Driver" />
     <None Remove="Config\" />
     <None Remove="Repository\" />
+    <None Remove="ai\Completions\Transcripts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ai\" />
@@ -36,5 +37,6 @@
     <Folder Include="Model\" />
     <Folder Include="Config\" />
     <Folder Include="Repository\" />
+    <Folder Include="ai\Completions\Transcripts\" />
   </ItemGroup>
 </Project>

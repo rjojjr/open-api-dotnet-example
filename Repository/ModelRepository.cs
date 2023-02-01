@@ -43,6 +43,16 @@ namespace open_ai_example.Repository
         public async Task CreateAsync(OpenAICompletionModel newEvent) =>
            await _modelCollection.InsertOneAsync(newEvent);
 
+        public OpenAICompletionModel FindByModelName(string modelName)
+        {
+            var results = _modelCollection.Find(x => x.ModelName == modelName);
+            if(results.Count() > 0)
+            {
+                return results.First();
+            }
+            return null;
+        }
+
     }
 }
 
