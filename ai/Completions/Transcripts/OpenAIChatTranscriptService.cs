@@ -25,7 +25,7 @@ namespace open_ai_example.ai.Completions.Transcripts
             _logger.LogDebug("creating transcript for chat session {}", sessionId);
             var timer = Timer.Timer.TimerFactory(true);
             var transcript = new ChatTranscriptEntity();
-            transcript.SessionId = sessionId;
+            transcript.Id = sessionId;
             transcript.ModelId = modelId;
             transcript.ModelRevision = modelRevision;
             transcript.StartedAt = initialEntry.SentAt;

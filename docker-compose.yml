@@ -11,3 +11,20 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://*:8090
       OPEN_AI_API_KEY: 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
+      ModelDbConfig:Host: mongo
+    depends_on:
+      - "mongo"
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+       - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: open_ai
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: PASSW0rd
+    command: mongod --bind_ip_all --auth
+    volumes:
+      - ~/event-store/mongo:/data/db

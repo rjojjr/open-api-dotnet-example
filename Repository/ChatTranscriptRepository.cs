@@ -42,18 +42,23 @@ namespace open_ai_example.Repository
 
         public IList<ChatTranscriptEntity> GetChatTranscriptEntities(string sessionId = "")
         {
-            return _transcriptCollection.Find(x => sessionId == "" ? true : x.SessionId == sessionId).ToList();
+            if(sessionId == "")
+            {
+                return _transcriptCollection.Find(x => true).ToList();
+
+            }
+            return _transcriptCollection.Find(x => x.Id == sessionId).ToList();
         }
 
         public async Task UpdateAsync(ChatTranscriptEntity updatedTranscript) =>
-           await _transcriptCollection.ReplaceOneAsync(x => x.SessionId == updatedTranscript.SessionId, updatedTranscript);
+           await _transcriptCollection.ReplaceOneAsync(x => x.Id == updatedTranscript.Id, updatedTranscript);
 
         public async Task CreateAsync(ChatTranscriptEntity newTranscript) =>
            await _transcriptCollection.InsertOneAsync(newTranscript);
 
         public ChatTranscriptEntity FindBySessionId(string modelName)
         {
-            var results = _transcriptCollection.Find(x => x.SessionId == modelName).ToList();
+            var results = _transcriptCollection.Find(x => x.Id == modelName).ToList();
             if (results.Count() > 0)
             {
                 return results[0];
