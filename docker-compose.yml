@@ -10,4 +10,4 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://*:8090
-      OPEN_AI_API_KEY: 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
+      OPEN_AI_API_KEY: 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
