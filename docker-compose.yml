@@ -10,7 +10,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://*:8090
-      OPEN_AI_API_KEY: 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
+      OPEN_AI_API_KEY: "$CC_1_OPENAI_API_KEY"
       ModelDbConfig:Host: mongo
     depends_on:
       - "mongo"
