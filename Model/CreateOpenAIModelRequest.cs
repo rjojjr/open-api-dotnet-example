@@ -8,18 +8,20 @@ namespace open_ai_example.Model
         public string ModelRaw { get; set; } = null!;
         public string ModelAuthor { get; set; } = null!;
         public string ModelStop { get; set; } = null!;
+        public int CostLevel { get; set; }
         public ModelType ModelType { get; set; }
 
         public CreateOpenAIModelRequest()
 		{
 		}
 
-        public CreateOpenAIModelRequest(string modelName, string modelRaw, string modelAuthor, string modelStop, ModelType modelType)
+        public CreateOpenAIModelRequest(string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, ModelType modelType)
         {
             ModelName = modelName;
             ModelRaw = modelRaw;
             ModelAuthor = modelAuthor;
             ModelStop = modelStop;
+            CostLevel = costLevel;
             ModelType = modelType;
         }
     }

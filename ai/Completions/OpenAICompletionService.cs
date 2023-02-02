@@ -21,12 +21,13 @@ namespace open_ai_example.ai.Completions
             _openAIService = openAIServiceProvider.Get();
         }
 
-        public TextCompletionResponse GetCompletion(string prompt, int maxTokens = 1)
+        // Cost: 10 == Davinci, 9 == curie
+        public TextCompletionResponse GetCompletion(string prompt, int maxTokens = 1, int cost = 10)
         {
-            return _completion(prompt, maxTokens).Result;
+            return _completion(prompt, maxTokens, cost).Result;
         }
 
-        private async Task<TextCompletionResponse> _completion(string prompt, int maxTokens)
+        private async Task<TextCompletionResponse> _completion(string prompt, int maxTokens, int cost)
 		{
             var timer = Timer.Timer.TimerFactory(true);
 
@@ -37,7 +38,7 @@ namespace open_ai_example.ai.Completions
                 Prompt = prompt,
                 MaxTokens = maxTokens,
                 Stop = "Human:,AI:"
-            }, Models.TextDavinciV3);
+            }, cost == 10 ? Models.TextDavinciV3 : Models.TextCurieV1);
 
             var unknownError = new Exception("Error while processing completion result");
             if (completionResult.Successful)

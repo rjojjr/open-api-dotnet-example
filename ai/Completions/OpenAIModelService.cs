@@ -16,7 +16,7 @@ namespace open_ai_example.ai.Completions
             _modelRepository = modelRepository;
         }
 
-        public OpenAICompletionModel CreateCompletionModel(string modelName, string modelRaw, string modelAuthor, string modelStop, ModelType modelType)
+        public OpenAICompletionModel CreateCompletionModel(string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, ModelType modelType)
         {
             var time = DateTime.UtcNow;
             var model = new OpenAICompletionModel();
@@ -25,6 +25,7 @@ namespace open_ai_example.ai.Completions
             model.ModelAuthor = modelAuthor;
             model.ModelStop = modelStop;
             model.ModelType = modelType;
+            model.CurrentCostLevel = costLevel;
             model.CreatedAt = time;
             model.ModifiedAt = time;
 
