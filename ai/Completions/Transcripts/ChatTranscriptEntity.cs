@@ -22,7 +22,8 @@ namespace open_ai_example.ai.Completions.Transcripts
         public string ModelId { get; set; }
 		public int ModelRevision { get; set; }
         public DateTime StartedAt { get; set; }
-		public IList<ChatTranscriptEntry> ChatTranscriptEntries = new List<ChatTranscriptEntry>();
+		public IList<ChatTranscriptEntry> ChatTranscriptEntries { get; set; } = new List<ChatTranscriptEntry>();
+
         public ChatTranscriptEntity()
 		{
 		}
