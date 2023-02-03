@@ -31,10 +31,8 @@ namespace open_ai_example.Controllers
             _openAIChatTranscriptService = openAIChatTranscriptService;
         }
 
-
-
         /// <summary>
-        /// Processes given completion prompt.
+        /// Processes given completion prompt with OpenAI.
         /// </summary>
         /// <remarks>Process completion for given prompt.</remarks>
         /// <response code="200">Success</response>
@@ -44,16 +42,8 @@ namespace open_ai_example.Controllers
         public IActionResult GetCompletion([FromBody] CompletionRequest completionRequest, [FromQuery] string contextId = "")
         {
             var timer = Timer.Timer.TimerFactory(true);
-            var resolvedContextId = "";
+            var resolvedContextId = ResolveContextId(contextId);
 
-            if(contextId == null || contextId == "")
-            {
-                resolvedContextId = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                resolvedContextId = contextId;
-            }
             _logger.LogInformation("received request to perform OpenAI text completion [contextId: {}]", resolvedContextId);
             return ExecuteWithExceptionHandler(() =>
             {
@@ -75,22 +65,14 @@ namespace open_ai_example.Controllers
         public IActionResult GetChatTranscripts([FromQuery] string sessionId = "",[FromQuery] string contextId = "")
         {
             var timer = Timer.Timer.TimerFactory(true);
-            var resolvedContextId = "";
+            var resolvedContextId = ResolveContextId(contextId);
 
-            if (contextId == null || contextId == "")
-            {
-                resolvedContextId = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                resolvedContextId = contextId;
-            }
             _logger.LogInformation("received request chat transcripts [contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
             return ExecuteWithExceptionHandler(() =>
             {
 
                 _logger.LogInformation("completed request chat transcripts[contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
-                return Ok(_openAIChatTranscriptService.GetChatTranscriptEntities(sessionId));
+                return Ok(_openAIChatTranscriptService.GetChatTranscriptEntities(sessionId.Trim()));
             });
         }
 
@@ -105,16 +87,8 @@ namespace open_ai_example.Controllers
         public IActionResult Chat([FromQuery] string modelName = "", [FromQuery] string sessionId = "", [FromQuery] string message = "", [FromQuery] string contextId = "")
         {
             var timer = Timer.Timer.TimerFactory(true);
-            var resolvedContextId = "";
+            var resolvedContextId = ResolveContextId(contextId);
 
-            if (contextId == null || contextId == "")
-            {
-                resolvedContextId = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                resolvedContextId = contextId;
-            }
             _logger.LogInformation("received request chat transcripts [contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
             return ExecuteWithExceptionHandler(() =>
             {
@@ -137,16 +111,8 @@ namespace open_ai_example.Controllers
             [FromQuery] bool urlEncoded = false)
         {
             var timer = Timer.Timer.TimerFactory(true);
-            var resolvedContextId = "";
+            var resolvedContextId = ResolveContextId(contextId);
 
-            if (contextId == null || contextId == "")
-            {
-                resolvedContextId = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                resolvedContextId = contextId;
-            }
             _logger.LogInformation("received request to create OpenAI text completion model [contextId: {}, modelName: {}]", resolvedContextId, completionRequest.ModelName);
             return ExecuteWithExceptionHandler(() =>
             {
@@ -175,16 +141,8 @@ namespace open_ai_example.Controllers
             [FromQuery] bool urlEncoded = false)
         {
             var timer = Timer.Timer.TimerFactory(true);
-            var resolvedContextId = "";
+            var resolvedContextId = ResolveContextId(contextId);
 
-            if (contextId == null || contextId == "")
-            {
-                resolvedContextId = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                resolvedContextId = contextId;
-            }
             _logger.LogInformation("received request to create OpenAI text completion model [contextId: {}, modelName: {}]", resolvedContextId, completionRequest.ModelName);
             return ExecuteWithExceptionHandler(() =>
             {
@@ -198,6 +156,15 @@ namespace open_ai_example.Controllers
                 _logger.LogInformation("completed successfully request to create OpenAI text completion model [contextId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelName, timer.GetTimeElasped());
                 return Created(".", response);
             });
+        }
+
+        private string ResolveContextId(string contextId)
+        {
+            if (contextId == null || contextId == "")
+            {
+                return Guid.NewGuid().ToString();
+            }
+            return contextId;
         }
     }
 }
