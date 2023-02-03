@@ -124,6 +124,7 @@ namespace open_ai_example.Controllers
                     urlEncoded ? HttpUtility.UrlDecode(completionRequest.ModelRaw) : completionRequest.ModelRaw,
                     completionRequest.ModelAuthor,
                     completionRequest.ModelStop,
+                    completionRequest.CostLevel,
                     completionRequest.ModelType);
 
                 _logger.LogInformation("completed successfully request to create OpenAI text completion model [contextId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelName, timer.GetTimeElasped());
@@ -161,6 +162,7 @@ namespace open_ai_example.Controllers
                     urlEncoded ? HttpUtility.UrlDecode(completionRequest.ModelRaw) : completionRequest.ModelRaw,
                     completionRequest.ModelAuthor,
                     completionRequest.ModelStop,
+                    completionRequest.CostLevel,
                     completionRequest.ModelType);
 
                 _logger.LogInformation("completed successfully request to create OpenAI text completion model [contextId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelName, timer.GetTimeElasped());

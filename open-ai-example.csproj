@@ -39,13 +39,4 @@
     <Folder Include="Repository\" />
     <Folder Include="ai\Completions\Transcripts\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="CCModel.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CCModel.cshtml">
-      <Generator>RazorTemplatePreprocessor</Generator>
-      <LastGenOutput>CCModel.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
 </Project>
