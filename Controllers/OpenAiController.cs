@@ -95,6 +95,36 @@ namespace open_ai_example.Controllers
         }
 
         /// <summary>
+        /// Send chat msg to model.
+        /// </summary>
+        /// <remarks>Send chat msg to model.</remarks>
+        /// <response code="200">Success</response>
+        /// <response code="400">Prompt is a required query parameter</response>
+        /// <response code="500">Something went wrong</response>
+        [HttpGet("chat")]
+        public IActionResult Chat([FromQuery] string modelName = "", [FromQuery] string sessionId = "", [FromQuery] string message = "", [FromQuery] string contextId = "")
+        {
+            var timer = Timer.Timer.TimerFactory(true);
+            var resolvedContextId = "";
+
+            if (contextId == null || contextId == "")
+            {
+                resolvedContextId = Guid.NewGuid().ToString();
+            }
+            else
+            {
+                resolvedContextId = contextId;
+            }
+            _logger.LogInformation("received request chat transcripts [contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
+            return ExecuteWithExceptionHandler(() =>
+            {
+
+                _logger.LogInformation("completed request chat transcripts[contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
+                return Ok(_openAIChatService.ChatWithAIModel(modelName, "unknown", sessionId, 150, message));
+            });
+        }
+
+        /// <summary>
         /// Save OpenAI completion model.
         /// </summary>
         /// <remarks>Save OpenAI completion model.</remarks>
