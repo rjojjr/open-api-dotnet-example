@@ -130,10 +130,10 @@ namespace open_ai_example.Controllers
         }
 
         /// <summary>
-        /// Save OpenAI completion model.
+        /// Update existing OpenAI completion model.
         /// </summary>
-        /// <remarks>Save OpenAI completion model.</remarks>
-        /// <response code="201">Success</response>
+        /// <remarks>Update existing OpenAI completion model.</remarks>
+        /// <response code="200">Success</response>
         /// <response code="400">Prompt is a required query parameter</response>
         /// <response code="500">Something went wrong</response>
         [HttpPatch("completion/model")]
@@ -144,18 +144,19 @@ namespace open_ai_example.Controllers
             var timer = Timer.Timer.TimerFactory(true);
             var resolvedContextId = ResolveContextId(contextId);
 
-            _logger.LogInformation("received request to create OpenAI text completion model [contextId: {}, modelName: {}]", resolvedContextId, completionRequest.ModelName);
+            _logger.LogInformation("received request to update OpenAI text completion model [contextId: {}, modelId: {}, modelName: {}]", resolvedContextId, completionRequest.ModelId, completionRequest.ModelName);
             return ExecuteWithExceptionHandler(() =>
             {
-                var response = _openAIModelService.CreateCompletionModel(completionRequest.ModelName,
+                var response = _openAIModelService.UpdateCompletionModel(completionRequest.ModelId,
+                    completionRequest.ModelName,
                     urlEncoded ? HttpUtility.UrlDecode(completionRequest.ModelRaw) : completionRequest.ModelRaw,
                     completionRequest.ModelAuthor,
                     completionRequest.ModelStop,
                     completionRequest.CostLevel,
                     completionRequest.ModelType);
 
-                _logger.LogInformation("completed successfully request to create OpenAI text completion model [contextId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelName, timer.GetTimeElasped());
-                return Created(".", response);
+                _logger.LogInformation("completed successfully request to update OpenAI text completion model [contextId: {}, modelId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelId, completionRequest.ModelName, timer.GetTimeElasped());
+                return Ok(response);
             });
         }
 

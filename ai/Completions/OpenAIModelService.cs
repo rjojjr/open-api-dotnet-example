@@ -36,6 +36,27 @@ namespace open_ai_example.ai.Completions
             return model;
         }
 
+        public OpenAICompletionModel UpdateCompletionModel(string modelId, string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, ModelType modelType)
+        {
+            var time = DateTime.UtcNow;
+            var model = new OpenAICompletionModel();
+            model.Id = modelId;
+            model.ModelName = modelName;
+            model.ModelRaw = modelRaw;
+            model.ModelAuthor = modelAuthor;
+            model.ModelStop = modelStop;
+            model.ModelType = modelType;
+            model.CurrentCostLevel = costLevel;
+            model.CreatedAt = time;
+            model.ModifiedAt = time;
+
+            model.revisions.Add(model.ToRevision());
+
+            _modelRepository.UpdateAsync(model).Wait();
+
+            return model;
+        }
+
         public OpenAICompletionModel GetModelByName(string modelName)
         {
             var model = _modelRepository.FindByModelName(modelName);
