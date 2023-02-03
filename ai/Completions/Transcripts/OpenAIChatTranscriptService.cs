@@ -1,5 +1,6 @@
 ﻿using System;
 using open_ai_example.Exceptions;
+using open_ai_example.Model;
 using open_ai_example.Repository;
 
 namespace open_ai_example.ai.Completions.Transcripts
@@ -15,9 +16,11 @@ namespace open_ai_example.ai.Completions.Transcripts
             _chatTranscriptRepository = chatTranscriptRepository;
         }
 
-        public IList<ChatTranscriptEntity> GetChatTranscriptEntities(string sessionId = "")
+        public ChatTranscriptResponse GetChatTranscriptEntities(string sessionId)
         {
-            return _chatTranscriptRepository.GetChatTranscriptEntities(sessionId);
+            var transcripts = _chatTranscriptRepository.GetChatTranscriptEntities(sessionId);
+
+            return new ChatTranscriptResponse(sessionId, transcripts);
         }
 
         public void CreateChatTranscript(ChatTranscriptEntry initialEntry, string modelId, int modelRevision, string sessionId)

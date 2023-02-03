@@ -54,7 +54,7 @@ namespace open_ai_example.ai.Completions
                 _openAIChatTranscriptService.UpdateChatTranscript(userEntry, sessionId);
             }
            
-            var prompt = model.ModelRaw + "\nHuman: " + msg + "\nAI: ";
+            var prompt = model.ModelRaw + "\nHuman: " + msg + "\nAI:";
 
             var response = _openAiCompletionService.GetCompletion(prompt, maxTokens);
 

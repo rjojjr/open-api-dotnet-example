@@ -84,17 +84,18 @@ namespace open_ai_example.Controllers
         /// <response code="400">Prompt is a required query parameter</response>
         /// <response code="500">Something went wrong</response>
         [HttpGet("chat")]
-        public IActionResult Chat([FromQuery] string modelName = "", [FromQuery] string sessionId = "", [FromQuery] string message = "", [FromQuery] string contextId = "")
+        public IActionResult Chat([FromQuery] string modelName = "", [FromQuery] string sessionId = "", [FromQuery] string message = "", [FromQuery] int maxTokens = 150, [FromQuery] string contextId = "")
         {
             var timer = Timer.Timer.TimerFactory(true);
             var resolvedContextId = ResolveContextId(contextId);
+            var resolvedSessionId = ResolveSessionId(sessionId);
 
-            _logger.LogInformation("received request chat transcripts [contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
+            _logger.LogInformation("received chat request [contextId: {}, sessionId: {}]", resolvedContextId, resolvedSessionId);
             return ExecuteWithExceptionHandler(() =>
             {
 
-                _logger.LogInformation("completed request chat transcripts[contextId: {}, sessionId: {}]", resolvedContextId, sessionId);
-                return Ok(_openAIChatService.ChatWithAIModel(modelName, "unknown", sessionId, 150, message));
+                _logger.LogInformation("completed chat request [contextId: {}, sessionId: {}]", resolvedContextId, resolvedSessionId);
+                return Ok(_openAIChatService.ChatWithAIModel(modelName, "unknown", resolvedSessionId, maxTokens, message));
             });
         }
 
@@ -165,6 +166,15 @@ namespace open_ai_example.Controllers
                 return Guid.NewGuid().ToString();
             }
             return contextId;
+        }
+
+        private string ResolveSessionId(string sessionId)
+        {
+            if(sessionId.Trim() == "")
+            {
+                return Guid.NewGuid().ToString();
+            }
+            return sessionId;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace open_ai_example.Repository
 
         public IList<ChatTranscriptEntity> GetChatTranscriptEntities(string sessionId = "")
         {
-            if(sessionId == "")
+            if(sessionId == null || sessionId == "")
             {
                 return _transcriptCollection.Find(x => true).ToList();
 
