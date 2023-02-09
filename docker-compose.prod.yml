@@ -1,0 +1,42 @@
+﻿version: '3.1'
+
+services:
+
+  open_ai_api:
+    image: docker.io/rjojjr91/open-ai-api
+    container_name: open-ai-api
+    ports:
+       - 443:443
+    environment:
+      SERVER_SSL_KEY_STORE_PASSWORD: "$SERVER_SSL_KEY_STORE_PASSWORD"
+    volumes:
+      - /etc/letsencrypt/live/ai.chitownpc.com:/etc/letsencrypt/live/ai.chitownpc.com
+    depends_on:
+      - "open_ai_broker"
+
+  open_ai_broker:
+    image: docker.io/rjojjr91/open-ai-broker
+    container_name: open-ai-broker
+    ports:
+       - 8090:8090
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://*:8090
+      OPEN_AI_API_KEY: "$CC_1_V_OPENAI_API_KEY"
+      ModelDbConfig:Host: mongo
+    depends_on:
+      - "mongo"
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+       - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: open_ai
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: PASSW0rd
+    command: mongod --bind_ip_all --auth
+    volumes:
+      - ~/data/mongo:/data/db

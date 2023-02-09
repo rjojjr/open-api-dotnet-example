@@ -35,7 +35,7 @@ namespace open_ai_example.ai.Completions
 
             var model = _openAIModelService.GetModelByName(modelName);
             // TODO - Check for session
-            var transcripts = _openAIChatTranscriptService.GetChatTranscriptEntities(sessionId);
+            var transcripts = _openAIChatTranscriptService.GetChatTranscriptEntities(sessionId).Transcripts;
             var transcript = transcripts.Count() > 0 ? transcripts[0] : null;
 
             var userEntry = new ChatTranscriptEntry();

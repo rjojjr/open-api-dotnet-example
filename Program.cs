@@ -48,12 +48,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMvc(options =>
-{
-    options.InputFormatters.Add(new TextPlainInputFormatter());
-});
-
-
 
 var app = builder.Build();
 

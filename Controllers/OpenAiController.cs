@@ -55,6 +55,29 @@ namespace open_ai_example.Controllers
         }
 
         /// <summary>
+        /// Get OpenAI completion model with given name.
+        /// </summary>
+        /// <remarks>Get OpenAI completion model with given name.</remarks>
+        /// <response code="200">Success</response>
+        /// <response code="400">Prompt is a required query parameter</response>
+        /// <response code="500">Something went wrong</response>
+        [HttpGet("completion/model")]
+        public IActionResult GetCompletionModel([FromQuery] string modelName = "", [FromQuery] string contextId = "")
+        {
+            var timer = Timer.Timer.TimerFactory(true);
+            var resolvedContextId = ResolveContextId(contextId);
+
+            _logger.LogInformation("received request to get OpenAI text completion model [contextId: {}, modelName: {}]", resolvedContextId, modelName);
+            return ExecuteWithExceptionHandler(() =>
+            {
+                var response = _openAIModelService.GetModelByName(modelName);
+
+                _logger.LogInformation("completed successfully request to get OpenAI text completion model [contextId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, modelName, timer.GetTimeElasped());
+                return Ok(response);
+            });
+        }
+
+        /// <summary>
         /// Get OpenAI chat transcripts.
         /// </summary>
         /// <remarks>Get OpenAI chat transcripts.</remarks>

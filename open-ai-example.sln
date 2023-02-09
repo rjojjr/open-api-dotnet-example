@@ -5,6 +5,11 @@ VisualStudioVersion = 25.0.1704.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-ai-example", "open-ai-example.csproj", "{57ED1794-F404-45FA-8488-A698A2BF276D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C00EDCF-D2A0-4299-98DA-1498F4FEB3AB}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.prod.yml = docker-compose.prod.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
