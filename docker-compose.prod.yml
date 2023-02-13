@@ -2,9 +2,21 @@
 
 services:
 
-  open_ai:
-    image: open-ai-exp
-    container_name: open-ai-exp
+  open_ai_api:
+    image: docker.io/rjojjr91/open-ai-api
+    container_name: open-ai-api
+    ports:
+       - 443:443
+    environment:
+      SERVER_SSL_KEY_STORE_PASSWORD: "$SERVER_SSL_KEY_STORE_PASSWORD"
+    volumes:
+      - /etc/letsencrypt/live/ai.chitownpc.com:/etc/letsencrypt/live/ai.chitownpc.com
+    depends_on:
+      - "open_ai_broker"
+
+  open_ai_broker:
+    image: docker.io/rjojjr91/open-ai-broker
+    container_name: open-ai-broker
     ports:
        - 8090:8090
     environment:
@@ -27,4 +39,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: PASSW0rd
     command: mongod --bind_ip_all --auth
     volumes:
-      - ~/event-store/mongo:/data/db
+      - ~/data/mongo:/data/db

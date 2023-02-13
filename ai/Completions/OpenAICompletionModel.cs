@@ -11,7 +11,9 @@ namespace open_ai_example.ai.Completions
         public string ModelRaw { get; set; } = null!;
         public string ModelAuthor { get; set; } = null!;
         public string ModelStop { get; set; } = null!;
+        public float Temperature { get; set; } = 0.49f;
         public int Revision { get; set; }
+        public int CostLevel { get; set; }
         public ModelType ModelType { get; set; } = ModelType.CHAT;
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
@@ -26,7 +28,9 @@ namespace open_ai_example.ai.Completions
             string modelRaw,
             string modelAuthor,
             string modelStop,
+            float temperature,
             int revision,
+            int costLevel,
             ModelType modelType,
             DateTime createdAt,
             DateTime modifiedAt)
@@ -38,8 +42,10 @@ namespace open_ai_example.ai.Completions
             ModelAuthor = modelAuthor;
             ModelStop = modelStop;
             Revision = revision;
+            CostLevel = costLevel;
             CreatedAt = createdAt;
             ModifiedAt = modifiedAt;
+            Temperature = temperature;
         }
     }
 
@@ -51,7 +57,9 @@ namespace open_ai_example.ai.Completions
         public string ModelRaw { get; set; } = null!;
         public string ModelAuthor { get; set; } = null!;
         public string ModelStop { get; set; } = null!;
+        public float Temperature { get; set; } = 0.49f;
         public int CurrentRevision { get; set; } = 0;
+        public int CurrentCostLevel { get; set; } = 10;
         public ModelType ModelType { get; set; } = ModelType.CHAT;
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
@@ -70,7 +78,9 @@ namespace open_ai_example.ai.Completions
                 this.ModelRaw,
                 this.ModelAuthor,
                 this.ModelStop,
+                this.Temperature,
                 this.CurrentRevision,
+                this.CurrentCostLevel,
                 this.ModelType,
                 this.CreatedAt,
                 this.ModifiedAt);

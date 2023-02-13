@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using open_ai_example.ai.Completions;
+using open_ai_example.ai.Completions.Transcripts;
 using open_ai_example.Config;
 
 namespace open_ai_example.Repository
@@ -42,6 +43,20 @@ namespace open_ai_example.Repository
 
         public async Task CreateAsync(OpenAICompletionModel newEvent) =>
            await _modelCollection.InsertOneAsync(newEvent);
+
+        public async Task UpdateAsync(OpenAICompletionModel updatedTranscript) =>
+           await _modelCollection.ReplaceOneAsync(x => x.Id == updatedTranscript.Id, updatedTranscript);
+
+
+        public OpenAICompletionModel FindByModelName(string modelName)
+        {
+            var results = _modelCollection.Find(x => x.ModelName == modelName);
+            if(results.Count() > 0)
+            {
+                return results.First();
+            }
+            return null;
+        }
 
     }
 }

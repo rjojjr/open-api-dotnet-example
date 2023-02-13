@@ -1,8 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
 using open_ai_example.ai.Base;
 using open_ai_example.ai.Completions;
+using open_ai_example.ai.Completions.Transcripts;
 using open_ai_example.Config;
 using open_ai_example.Controllers;
+using open_ai_example.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,15 @@ builder.Services.Configure<ModelDbConfig>(
 
 builder.Services.AddSingleton<OpenAICompletionService>();
 builder.Services.AddSingleton<OpenAIServiceProvider>();
+
+
+builder.Services.AddSingleton<OpenAIChatTranscriptService>();
+builder.Services.AddSingleton<OpenAIModelService>();
+builder.Services.AddSingleton<OpenAIChatService>();
+
+builder.Services.AddSingleton<ChatTranscriptRepository>();
+builder.Services.AddSingleton<ModelRepository>();
+
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
@@ -36,12 +47,6 @@ builder.Services.AddEndpointsApiExplorer();
 //});
 
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddMvc(options =>
-{
-    options.InputFormatters.Add(new TextPlainInputFormatter());
-});
-
 
 
 var app = builder.Build();

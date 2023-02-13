@@ -1,3 +1,5 @@
+CC1-T.jsonl
+
 # globs
 Makefile.in
 *.userprefs
@@ -10,6 +12,8 @@ autom4te.cache/
 *.tar.gz
 tarballs/
 test-results/
+
+pcmodel.txt
 
 # Mac bundle stuff
 *.dmg
