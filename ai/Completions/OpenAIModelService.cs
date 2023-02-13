@@ -16,7 +16,7 @@ namespace open_ai_example.ai.Completions
             _modelRepository = modelRepository;
         }
 
-        public OpenAICompletionModel CreateCompletionModel(string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, ModelType modelType)
+        public OpenAICompletionModel CreateCompletionModel(string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, float temperature, ModelType modelType)
         {
             var time = DateTime.UtcNow;
             var model = new OpenAICompletionModel();
@@ -28,6 +28,7 @@ namespace open_ai_example.ai.Completions
             model.CurrentCostLevel = costLevel;
             model.CreatedAt = time;
             model.ModifiedAt = time;
+            model.Temperature = temperature;
 
             model.revisions.Add(model.ToRevision());
 
@@ -36,7 +37,7 @@ namespace open_ai_example.ai.Completions
             return model;
         }
 
-        public OpenAICompletionModel UpdateCompletionModel(string modelId, string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, ModelType modelType)
+        public OpenAICompletionModel UpdateCompletionModel(string modelId, string modelName, string modelRaw, string modelAuthor, string modelStop, int costLevel, float temperature, ModelType modelType)
         {
             var time = DateTime.UtcNow;
             var model = new OpenAICompletionModel();
@@ -46,6 +47,7 @@ namespace open_ai_example.ai.Completions
             model.ModelAuthor = modelAuthor;
             model.ModelStop = modelStop;
             model.ModelType = modelType;
+            model.Temperature = temperature;
             model.CurrentCostLevel = costLevel;
             model.CreatedAt = time;
             model.ModifiedAt = time;

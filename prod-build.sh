@@ -1,6 +1,6 @@
-﻿#!/bin/sh
+﻿#!/usr/bin/env bash
 
-docker build -t rjojjr91/open-api-broker:stable -t "rjojjr91/open-api-broker:$1" .
-docker push "rjojjr91/open-api-broker:$1"
-docker push rjojjr91/open-api-broker:stable
+docker build -t rjojjr91/open-ai-broker:stable -t "rjojjr91/open-ai-broker:$1" .
+docker push "rjojjr91/open-ai-broker:$1"
+docker push rjojjr91/open-ai-broker:stable
 

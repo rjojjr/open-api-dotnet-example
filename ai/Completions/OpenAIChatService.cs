@@ -55,15 +55,14 @@ namespace open_ai_example.ai.Completions
             }
            
             var prompt = model.ModelRaw + "\nHuman: " + msg + "\nAI:";
-
-            var response = _openAiCompletionService.GetCompletion(prompt, maxTokens);
-
             var aiEntry = new ChatTranscriptEntry();
             aiEntry.ParticipantType = ChatParticipantType.AI;
             // TODO - Get user id
             aiEntry.ParticipantName = ChatParticipantType.AI.ToString();
 
             aiEntry.SentAt = DateTime.UtcNow;
+
+            var response = _openAiCompletionService.GetCompletion(prompt, maxTokens, model.CurrentCostLevel, model.Temperature);
             aiEntry.Message = response.Response;
             _openAIChatTranscriptService.UpdateChatTranscript(aiEntry, sessionId);
 

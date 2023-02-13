@@ -145,6 +145,7 @@ namespace open_ai_example.Controllers
                     completionRequest.ModelAuthor,
                     completionRequest.ModelStop,
                     completionRequest.CostLevel,
+                    completionRequest.Temperature,
                     completionRequest.ModelType);
 
                 _logger.LogInformation("completed successfully request to create OpenAI text completion model [contextId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelName, timer.GetTimeElasped());
@@ -176,6 +177,7 @@ namespace open_ai_example.Controllers
                     completionRequest.ModelAuthor,
                     completionRequest.ModelStop,
                     completionRequest.CostLevel,
+                    completionRequest.Temperature,
                     completionRequest.ModelType);
 
                 _logger.LogInformation("completed successfully request to update OpenAI text completion model [contextId: {}, modelId: {}, modelName: {}, timeTaken: {}]", resolvedContextId, completionRequest.ModelId, completionRequest.ModelName, timer.GetTimeElasped());
