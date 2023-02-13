@@ -22,13 +22,13 @@ namespace open_ai_example.ai.Completions
         }
 
         // Cost: 10 == Davinci, 9 == curie
-        public TextCompletionResponse GetCompletion(string prompt, int maxTokens = 1, int cost = 10, float temperature = 0.49f)
+        public TextCompletionResponse GetCompletion(string prompt, int maxTokens = 1, int cost = 10, float temperature = 0.49f, ModelType modelType = ModelType.CHAT_PROMPT, string modelRaw = "")
         {
-            return _completion(prompt, maxTokens, cost, temperature).Result;
+            return _completion(prompt, maxTokens, cost, temperature, modelType, modelRaw).Result;
         }
 
-        private async Task<TextCompletionResponse> _completion(string prompt, int maxTokens, int cost, float temperature)
-		{
+        private async Task<TextCompletionResponse> _completion(string prompt, int maxTokens, int cost, float temperature, ModelType modelType = ModelType.CHAT_PROMPT, string modelRaw = "")
+        {
             var timer = Timer.Timer.TimerFactory(true);
 
             //return new TextCompletionResponse("", timer.GetTimeElasped());
@@ -43,7 +43,7 @@ namespace open_ai_example.ai.Completions
                 PresencePenalty = 0.6f,
                 FrequencyPenalty = 0,
                 BestOf = 1
-            }, cost == 10 ? Models.TextDavinciV3 : Models.TextCurieV1);
+            }, modelType == ModelType.CHAT_PROMPT ? cost == 10 ? Models.TextDavinciV3 : Models.TextCurieV1 : modelRaw);
 
             var unknownError = new Exception("Error while processing completion result");
             if (completionResult.Successful)

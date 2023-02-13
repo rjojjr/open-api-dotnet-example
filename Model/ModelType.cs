@@ -3,7 +3,8 @@ namespace open_ai_example.Model
 {
 	public enum ModelType
 	{
-		CHAT
+		CHAT_PROMPT,
+		CHAT_TRAINED
 	}
 }
 

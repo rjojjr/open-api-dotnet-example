@@ -14,7 +14,7 @@ namespace open_ai_example.ai.Completions
         public float Temperature { get; set; } = 0.49f;
         public int Revision { get; set; }
         public int CostLevel { get; set; }
-        public ModelType ModelType { get; set; } = ModelType.CHAT;
+        public ModelType ModelType { get; set; } = ModelType.CHAT_PROMPT;
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
 
@@ -51,7 +51,6 @@ namespace open_ai_example.ai.Completions
 
 	public class OpenAICompletionModel
     {
-
         public string Id { get; set; } = null!;
         public string ModelName { get; set; } = null!;
         public string ModelRaw { get; set; } = null!;
@@ -60,7 +59,7 @@ namespace open_ai_example.ai.Completions
         public float Temperature { get; set; } = 0.49f;
         public int CurrentRevision { get; set; } = 0;
         public int CurrentCostLevel { get; set; } = 10;
-        public ModelType ModelType { get; set; } = ModelType.CHAT;
+        public ModelType ModelType { get; set; } = ModelType.CHAT_PROMPT;
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
 

@@ -53,8 +53,11 @@ namespace open_ai_example.ai.Completions
             {
                 _openAIChatTranscriptService.UpdateChatTranscript(userEntry, sessionId);
             }
-           
-            var prompt = model.ModelRaw + "\nHuman: " + msg + "\nAI:";
+
+            var prompt = model.ModelType == ModelType.CHAT_PROMPT
+                ? model.ModelRaw + "\nHuman: " + msg + "\nAI:"
+                : "Human: " + msg + "\nAI:";
+
             var aiEntry = new ChatTranscriptEntry();
             aiEntry.ParticipantType = ChatParticipantType.AI;
             // TODO - Get user id
@@ -62,7 +65,7 @@ namespace open_ai_example.ai.Completions
 
             aiEntry.SentAt = DateTime.UtcNow;
 
-            var response = _openAiCompletionService.GetCompletion(prompt, maxTokens, model.CurrentCostLevel, model.Temperature);
+            var response = _openAiCompletionService.GetCompletion(prompt, maxTokens, model.CurrentCostLevel, model.Temperature, model.ModelType, model.ModelType == ModelType.CHAT_PROMPT ? "" : model.ModelRaw);
             aiEntry.Message = response.Response;
             _openAIChatTranscriptService.UpdateChatTranscript(aiEntry, sessionId);
 
