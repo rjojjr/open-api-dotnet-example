@@ -35,9 +35,9 @@ namespace open_ai_example.ai.Completions
 
             var completionResult = await _openAIService.Completions.CreateCompletion(new CompletionCreateRequest()
             {
-                Prompt = prompt,
+                Prompt = prompt + "\n\n###\n\n",
                 MaxTokens = maxTokens,
-                Stop = "Human:,AI:",
+                Stop = "Human:,AI:, END:",
                 Temperature = temperature,
                 TopP = 1,
                 PresencePenalty = 0.6f,
